@@ -1,0 +1,125 @@
+/**
+
+//HTML5 Boilerplate + Normalize Built In
+*= require "vendor/html5bp.css"
+
+//Grid
+*= require "partials/grid"
+
+*/
+
+@import 'compass';
+@import 'vendor/variables';
+@import 'vendor/isotope';
+
+h1{
+	font-family: 'Oswald', sans-serif;
+	font-size: 48px;
+	padding: 20px 0 0px;
+	margin: 0;
+}
+
+body{
+
+}
+
+#search-container{
+	margin: 5px;
+	width: 630px;
+}
+
+.main{
+	width: 100%;
+	max-width: none;
+	margin: 30px auto;
+	box-shadow: 1px 1px 10px #333;
+}
+
+input[type="submit"]{
+	margin-top: 10px;
+	height: 30px;
+	position: relative;
+	bottom: 1px;
+}
+
+#map{
+	height: 400px;
+	width: 630px;
+	margin: 5px;
+}
+
+#autocomplete{
+	width: 548px;
+	height: 24px;
+	padding-left: 10px;
+}
+
+.main .instagram{
+	margin: 5px;
+	box-shadow: 1px 1px 2px #999;
+}
+
+.overlay{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: none;
+	top: 0;
+	left: 0;
+}
+
+.overlay h2{
+	font-size: 96px;
+	letter-spacing: -2px;
+	line-height: 310px;
+	color: white;
+	background: rgba(0,0,0,.2);
+	margin: 0;
+	text-align: center;
+}
+
+.overlay h3{
+	font-family: Helvetica Neue, Helvetica, sans-serif;
+	font-size: 40px;
+	line-height: 150px;
+	color: white;
+	background: rgba(0,0,0,.2);
+	margin: 0;
+	text-align: center;
+}
+
+@media (max-device-width: 480px) {
+
+	h1{
+		line-height: 60px;
+	}
+	#search-container{
+		margin: 5px;
+		width: 320px;
+	}
+
+	.main{
+		max-width: 480px;
+		margin: 0 auto;
+		box-shadow: none;
+	}
+
+	input[type="submit"]{
+		margin-top: 10px;
+		height: 30px;
+		position: relative;
+		bottom: 1px;
+	}
+
+	#map{
+		height: 200px;
+		width: 320px;
+		margin: 5px;
+	}
+
+	#autocomplete{
+		width: 238px;
+		height: 24px;
+		padding-left: 10px;
+	}
+}
