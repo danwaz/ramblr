@@ -2,7 +2,6 @@
 	//autocomplete init
 	new google.maps.places.Autocomplete(document.getElementById('autocomplete'));
 
-	//vars
 	var map,service, infowindow;
 
 	//input handler
