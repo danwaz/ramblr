@@ -3,6 +3,8 @@
 	new google.maps.places.Autocomplete(document.getElementById('autocomplete'));
 
 	var map,service, infowindow;
+	var moreUrl = "",
+		canLoad = false;
 
 	//input handler
 	$('input[type="submit"]').click(function(e){
@@ -70,6 +72,7 @@
 	var processLocation = function(data){
 		var locationId = data.data[0].id;
 		getPhotos("https://api.instagram.com/v1/locations/"+ locationId +"/media/recent?callback=?&amp;client_id=b93756e565794360942f1eba0831c90c");
+		moreUrl = "https://api.instagram.com/v1/locations/"+ locationId +"/media/recent?callback=?&amp;client_id=b93756e565794360942f1eba0831c90c";
 	}
 
 	//instagram
@@ -106,19 +109,50 @@
 		}, function(){
 			$(this).find('.overlay').fadeOut('fast');
 		});
+		canLoad = true;
 	};
 
 	var loadMore = function(url){
-		$.getJSON(url, processMore);
+		$.ajax({
+			url : url ,
+			dataType : 'jsonp',
+			success : processMore
+		});
 	};
 
 	var processMore = function(data){
 		$.each(data.data, function(index, photo){
 			var photoItem = $('<div class="item instagram"><a href="'+ photo.link +'" target="_blank"><img src="' + photo.images.low_resolution.url + '" width="310" height="310"/><div class="overlay"><h2>'+ photo.likes.count +' &hearts;</h2></div></a></div>');
-			$('#container').isotope('insert', photoItem);
+			$('.main').isotope('insert', photoItem);
 		});
 		nextPage =  data.pagination.next_max_id;
+		canLoad = true;
 	};
+
+	$(window).scroll(function() {
+		if($(window).scrollTop() + $(window).height() == $(document).height()) {
+			if(moreUrl !== "" && canLoad === true){
+				loadMore(moreUrl + "&max_id=" +  nextPage);
+				canLoad = false;
+				console.log('hit the bottom load more');
+			}
+		}
+		if($(window).scrollTop() < 200){
+			if($('#top').hasClass('active')){
+				$('#top').animate({"bottom" : -40});
+				$('#top').removeClass('active');
+			}
+		} else {
+			if(!$('#top').hasClass('active')){
+				$('#top').animate({"bottom" : 0});
+				$('#top').addClass('active');
+			}
+		}
+	});
+
+	$('#top').click(function(){
+		window.scrollTo(0);
+	})
 
 	var initGrid = function(){
 		//$('#loader').remove();
@@ -136,7 +170,6 @@
 		// });
 	};
 	initGrid();
-
 })();
 
 
