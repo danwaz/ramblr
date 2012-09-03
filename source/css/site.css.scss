@@ -3,58 +3,117 @@
 //HTML5 Boilerplate + Normalize Built In
 *= require "vendor/html5bp.css"
 
-//Grid
-*= require "partials/grid"
-
 */
-
 @import 'compass';
+@import 'compass/css3';
 @import 'vendor/variables';
 @import 'vendor/isotope';
 
-h1{
-	font-family: 'Oswald', sans-serif;
-	font-size: 48px;
-	padding: 20px 0 0px;
-	margin: 0;
-}
+//sprites
+@import "icons/*.png";
+@include all-icons-sprites;
 
 body{
-
+	margin: 0;
+	background: #dedede;
+	background-image: url('../img/ui/zenbg-1.png'), url('../img/ui/zenbg-2.png');
+	background-repeat: repeat-x, repeat;
 }
 
-#search-container{
-	margin: 5px;
-	width: 630px;
-}
-
-.main{
+header{
+	margin: 0;
 	width: 100%;
-	max-width: none;
-	margin: 30px auto;
-	box-shadow: 1px 1px 10px #333;
+	height: 50px;
+	@include background-image(linear-gradient(#605F5F, #3d3c3c));
+	@include box-shadow(0px 0px 1px #3d3c3c);
+	position: fixed;
+	z-index: 10;
+	#header-container{
+		width: $site-width;
+		min-width: $site-width;
+		margin: 0 auto;
+		padding: 0 10px;
+		#logo{
+			width: 92px;
+			height: 27px;
+			margin: 0 auto;
+			position: relative;
+			top: 14px;
+			h1{
+				margin: 0;
+				text-indent: -9999px;
+			}
+		}
+
+		#search-container{
+			width: 400px;
+			line-height: 50px;
+			float: left;
+			position: relative;
+			margin-left: 5px;
+			input[type="submit"]{
+				margin-top: 10px;
+				height: 30px;
+				position: relative;
+				bottom: 1px;
+				visibility: hidden;
+			}
+			#autocomplete{
+				width: 305px;
+				height: 21px;
+				padding-left: 5px;
+				padding-right: 2px;
+			}
+			.icons-search-icon{
+				width: 41px;
+				height: 21px;
+				position: absolute;
+				top: 15px;
+				right: 87px;
+			}
+		}
+	}
 }
 
-input[type="submit"]{
-	margin-top: 10px;
-	height: 30px;
-	position: relative;
-	bottom: 1px;
+#welcome{
+	width: $site-width;
+	margin: 200px auto 0;
+	text-align: center;
+	font-family: 'Quando', serif;
+	h2{
+		font-size: 48px;
+		margin: 20px 0 0;
+		position: relative;
+	}
+	p{
+		color: #999;
+		font-size: 13px;
+		margin: 0;
+		cursor: help;
+	}
 }
 
 #map{
-	height: 400px;
-	width: 630px;
-	margin: 5px;
+	position: relative;
+	margin-top: 50px;
+	height: 250px;
+	width: 100%;
+	background: #DDD;
+	display: none;
+	@include box-shadow(0px 1px 2px #3d3c3c);
+
 }
 
-#autocomplete{
-	width: 548px;
-	height: 24px;
-	padding-left: 10px;
+#map-container{
+	display: none;
 }
 
-.main .instagram{
+
+#content-grid{
+	margin: 20px auto;
+}
+
+#content-grid .instagram{
 	margin: 5px;
 	box-shadow: 1px 1px 2px #999;
 }
@@ -108,36 +167,4 @@ input[type="submit"]{
 
 @media (max-device-width: 480px) {
 
-	h1{
-		line-height: 60px;
-	}
-	#search-container{
-		margin: 5px;
-		width: 320px;
-	}
-
-	.main{
-		max-width: 480px;
-		margin: 0 auto;
-		box-shadow: none;
-	}
-
-	input[type="submit"]{
-		margin-top: 10px;
-		height: 30px;
-		position: relative;
-		bottom: 1px;
-	}
-
-	#map{
-		height: 200px;
-		width: 320px;
-		margin: 5px;
-	}
-
-	#autocomplete{
-		width: 238px;
-		height: 24px;
-		padding-left: 10px;
-	}
 }

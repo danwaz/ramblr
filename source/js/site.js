@@ -9,15 +9,16 @@
 	//input handler
 	$('input[type="submit"]').click(function(e){
 		e.preventDefault();
-		var searchQuery = $('#autocomplete').val();
-		var $removeable = $('.main').find('.instagram');
-		$('.main').isotope('remove', $removeable);
+		var searchQuery = $('#autocomplete').val(),
+			$removeable = $('#content-grid').find('.instagram');
+		$('#content-grid').isotope('remove', $removeable);
 		init(searchQuery);
 	});
 
 	var init = function(searchQuery) {
+		$('#map').slideDown('fast');
+		$('#welcome').fadeOut('fast');
 		var initCenter = new google.maps.LatLng(40,-74);
-
 		map = new google.maps.Map(document.getElementById('map'), {
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			center : initCenter,
@@ -40,13 +41,13 @@
 	}
 
 	var callback = function(results, status) {
+
 		if (status == google.maps.places.PlacesServiceStatus.OK) {
 			var lat = results[0].geometry.location.Xa;
 			var lng = results[0].geometry.location.Ya;
 			var center = new google.maps.LatLng(lat, lng);
 			map.panTo(center);
 			createMarker(lat, lng);
-			console.log(lat + ':::::' + lng)
 			getLocation(lat, lng);
 		}
 	}
@@ -61,7 +62,7 @@
 
 	var getIgLocation = function(data){
 		var foursquareId = data.response.venues[0].id;
-		console.log(foursquareId);
+		textAnimate(data.response.venues[0].name);
 		$.ajax({
 			url : "https://api.instagram.com/v1/locations/search?foursquare_v2_id="+ foursquareId +"&callback=?&amp;client_id=b93756e565794360942f1eba0831c90c",
 			dataType : 'jsonp',
@@ -89,26 +90,22 @@
 	};
 
 	var processPhotos = function(data){
-		photoArr = [];
-		$.each(data.data, function(index, photo){
-			photoArr.push(photo);
+		var i;
+		for (i = 0; i < data.data.length; i++){
+			var photoItem = $('<div class="item instagram"><a href="'+ data.data[i].link +'" target="_blank"><img src="' + data.data[i].images.low_resolution.url + '" width="310" height="310"/><div class="overlay"><h2>'+ data.data[i].likes.count +' &hearts;</h2></div></a></div>');
+			$('#content-grid').isotope('insert', photoItem);
+		};
+
+		$('.instagram').on({
+			mouseenter : function(){
+				$(this).find('.overlay').fadeIn('fast');
+			},
+			mouseleave : function(){
+				$(this).find('.overlay').fadeOut('fast');
+			}
 		});
 
-		displayPhotos(photoArr);
 		nextPage =  data.pagination.next_max_id;
-	};
-
-	var displayPhotos = function(photos){
-		$.each(photos, function(index, photo){
-			//console.log(photo);
-			var photoItem = $('<div class="item instagram"><a href="'+ photo.link +'" target="_blank"><img src="' + photo.images.low_resolution.url + '" width="310" height="310"/><div class="overlay"><h2>'+ photo.likes.count +' &hearts;</h2></div></a></div>');
-			$('.main').isotope('insert', photoItem);
-		});
-		$('.instagram').hover(function(){
-			$(this).find('.overlay').fadeIn('fast');
-		}, function(){
-			$(this).find('.overlay').fadeOut('fast');
-		});
 		canLoad = true;
 	};
 
@@ -116,17 +113,8 @@
 		$.ajax({
 			url : url ,
 			dataType : 'jsonp',
-			success : processMore
+			success : processPhotos
 		});
-	};
-
-	var processMore = function(data){
-		$.each(data.data, function(index, photo){
-			var photoItem = $('<div class="item instagram"><a href="'+ photo.link +'" target="_blank"><img src="' + photo.images.low_resolution.url + '" width="310" height="310"/><div class="overlay"><h2>'+ photo.likes.count +' &hearts;</h2></div></a></div>');
-			$('.main').isotope('insert', photoItem);
-		});
-		nextPage =  data.pagination.next_max_id;
-		canLoad = true;
 	};
 
 	$(window).scroll(function() {
@@ -134,7 +122,6 @@
 			if(moreUrl !== "" && canLoad === true){
 				loadMore(moreUrl + "&max_id=" +  nextPage);
 				canLoad = false;
-				console.log('hit the bottom load more');
 			}
 		}
 		if($(window).scrollTop() < 200){
@@ -152,11 +139,25 @@
 
 	$('#top').click(function(){
 		window.scrollTo(0);
-	})
+	});
+
+	$('#welcome').find('p').on({
+		mouseenter : function(){
+			$('#autocomplete').focus();
+		}
+	});
+
+	var textAnimate = function(name){
+		var animateEl = $('#welcome');
+		animateEl.css('margin-top', '30px');
+		animateEl.find('h2').text(name);
+		animateEl.find('p').text("(We found this by that location)");
+		animateEl.fadeIn('slow');
+	}
 
 	var initGrid = function(){
 		//$('#loader').remove();
-		$('.main').isotope({
+		$('#content-grid').isotope({
 			// options
 			itemSelector : '.item',
 			masonry: {

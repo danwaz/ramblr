@@ -59,9 +59,13 @@ while ( --i ) {
 	unusedCols++;
 }
 
+//custom - modified to keep header lined up with columns
+var containerWidth = (this.masonry.cols - unusedCols) * this.masonry.columnWidth;
+$('#header-container').css('width', containerWidth);
+
 return {
 	height : Math.max.apply( Math, this.masonry.colYs ),
 	// fit container to columns that have been used;
-	width : (this.masonry.cols - unusedCols) * this.masonry.columnWidth
+	width : containerWidth
 	};
 };

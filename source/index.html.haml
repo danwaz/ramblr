@@ -1,16 +1,11 @@
 ---
-title: Instagram Places Search
-description: Search Instagram using the Google Places API + Foursquare API
+title: Ramblr | Locally Sourced Search
+description:
 ---
 
-#search-container.item
-	%h1
-		Let's find some Instagrams
-
-	%form
-		%input{:name => "input", :type => "text", :id => "autocomplete"}
-		%input{:type => "submit", :value => "submit"}
-
-#map.item
-
+= partial "partials/map"
+%section#welcome
+	%h2 Where do you want to go today?
+	%p (The search bar is at the top)
+%section#content-grid
 #top Top
