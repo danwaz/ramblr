@@ -12,11 +12,12 @@
 		var searchQuery = $('#autocomplete').val(),
 			$removeable = $('#content-grid').find('.instagram');
 		$('#content-grid').isotope('remove', $removeable);
-		init(searchQuery);
+		$('#map').slideDown('fast', function(){
+			init(searchQuery);
+		});
 	});
 
 	var init = function(searchQuery) {
-		$('#map').slideDown('fast');
 		$('#welcome').fadeOut('fast');
 		var initCenter = new google.maps.LatLng(40,-74);
 		map = new google.maps.Map(document.getElementById('map'), {
@@ -147,11 +148,23 @@
 		}
 	});
 
+	$('#info').on('click', function(){
+		var header = $('header');
+		if(header.hasClass('no-stick')){
+			header.removeClass('no-stick');
+			$('#about').slideUp('fast');
+		} else {
+			header.addClass('no-stick');
+			$('#about').slideDown('fast');
+		}
+
+	});
+
 	var textAnimate = function(name){
 		var animateEl = $('#welcome');
 		animateEl.css('margin-top', '30px');
 		animateEl.find('h2').text(name);
-		animateEl.find('p').text("(We found this by that location)");
+		animateEl.find('p').text("(We found this near that location)");
 		animateEl.fadeIn('slow');
 	}
 

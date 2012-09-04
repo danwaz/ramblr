@@ -62,6 +62,7 @@ while ( --i ) {
 //custom - modified to keep header lined up with columns
 var containerWidth = (this.masonry.cols - unusedCols) * this.masonry.columnWidth;
 $('#header-container').css('width', containerWidth);
+$('#about-container').css('width', containerWidth);
 
 return {
 	height : Math.max.apply( Math, this.masonry.colYs ),

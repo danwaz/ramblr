@@ -31,6 +31,7 @@ header{
 	#header-container{
 		width: $site-width;
 		min-width: $site-width;
+		overflow: hidden;
 		margin: 0 auto;
 		padding: 0 10px;
 		#logo{
@@ -72,6 +73,17 @@ header{
 				right: 87px;
 			}
 		}
+		#info{
+			width: 24px;
+			height: 24px;
+			float: right;
+			position: relative;
+			bottom: 13px;
+			color: white;
+			cursor: pointer;
+			text-indent: -9999px;
+			padding-right: 10px;
+		}
 	}
 }
 
@@ -93,9 +105,44 @@ header{
 	}
 }
 
+#about{
+	font-family: 'Quando', serif;
+	width: 100%;
+	display: none;
+	padding: 30px 0;
+	background-color: #888;
+	#about-container{
+		width: $site-width;
+		margin: 0 auto;
+		padding: 0 10px;
+		h3{
+			font-size: 24px;
+			margin: 0 0 0;
+			text-shadow: 1px 1px 1px black;
+			color: white;
+		}
+		p{
+			color: #F3F3F3;
+			font-size: 14px;
+		}
+		a{
+			color: #2B2B2B;
+			text-decoration: none;
+			&:hover{
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+.no-stick{
+	position: relative !important;
+	@include box-shadow(0px -1px 10px black);
+}
+
 #map{
 	position: relative;
-	margin-top: 50px;
+	padding-top: 50px;
 	height: 250px;
 	width: 100%;
 	background: #DDD;
