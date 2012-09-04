@@ -7,7 +7,7 @@
 		canLoad = false;
 
 	//input handler
-	$('input[type="submit"]').click(function(e){
+	$('input[type="submit"], .icons-search-icon').click(function(e){
 		e.preventDefault();
 		var searchQuery = $('#autocomplete').val(),
 			$removeable = $('#content-grid').find('.instagram');
@@ -148,7 +148,7 @@
 		}
 	});
 
-	$('#info').on('click', function(){
+	$('#info, #logo').on('click', function(){
 		var header = $('header');
 		if(header.hasClass('no-stick')){
 			header.removeClass('no-stick');

@@ -155,7 +155,6 @@ header{
 	display: none;
 }
 
-
 #content-grid{
 	margin: 20px auto;
 }
@@ -213,5 +212,74 @@ header{
 }
 
 @media (max-device-width: 480px) {
+	#welcome{
+		width: 300px;
+		margin: 75px auto 0;
+		h2{
+			font-size: 30px;
+			line-height: 36px;
+		}
+		p{
+			color: #999;
+			font-size: 13px;
+			margin: 0;
+			cursor: help;
+			padding-top: 10px;
+		}
+	}
+	#top{
+		display: none;
+	}
+	header{
+		#header-container{
+			width: 300px;
+			min-width: 300px;
+			max-width: 300px;
+			#logo{
+				width: 92px;
+				height: 27px;
+				float: left;
+				position: relative;
+				top: 14px;
+				h1{
+					margin: 0;
+					text-indent: -9999px;
+				}
+			}
 
+			#search-container{
+				width: 180px;
+				line-height: 50px;
+				float: right;
+				position: relative;
+				right: 10px;
+				margin-left: 5px;
+				#autocomplete{
+					width: 180px;
+					height: 21px;
+					padding-left: 5px;
+					padding-right: 2px;
+				}
+				.icons-search-icon{
+					width: 45px;
+					height: 30px;
+					position: absolute;
+					top: 15px;
+					right: -5px;
+				}
+			}
+			#info{
+				display: none;
+			}
+		}
+	}
+	#map{
+		height: 100px;
+	}
+
+	#about-container{
+		width: 300px;
+		min-width: 300px;
+		max-width: 300px;
+	}
 }
