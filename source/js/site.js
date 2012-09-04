@@ -9,12 +9,14 @@
 	//input handler
 	$('input[type="submit"], .icons-search-icon').click(function(e){
 		e.preventDefault();
+		e.stopPropagation();
 		var searchQuery = $('#autocomplete').val(),
 			$removeable = $('#content-grid').find('.instagram');
 		$('#content-grid').isotope('remove', $removeable);
 		$('#map').slideDown('fast', function(){
 			init(searchQuery);
 		});
+		return false;
 	});
 
 	var init = function(searchQuery) {
