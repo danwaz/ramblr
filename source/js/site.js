@@ -19,7 +19,7 @@
 			});
 		} else {
 			$('#welcome').find('p').fadeOut('fast', function(){
-				$('p').text('(Whoops, you forgot to type something!)').fadeIn('fast');
+				$(this).text('(Whoops, you forgot to type something!)').fadeIn('fast');
 			});
 		}
 		return false;
