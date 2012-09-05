@@ -141,9 +141,13 @@ header{
 	@include box-shadow(0px -1px 10px black);
 }
 
+.expanded{
+	margin-top: 0 !important;
+}
+
 #map{
 	position: relative;
-	padding-top: 50px;
+	margin-top: 50px;
 	height: 250px;
 	width: 100%;
 	background: #DDD;

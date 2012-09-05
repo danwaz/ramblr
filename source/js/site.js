@@ -12,10 +12,16 @@
 		e.stopPropagation();
 		var searchQuery = $('#autocomplete').val(),
 			$removeable = $('#content-grid').find('.instagram');
-		$('#content-grid').isotope('remove', $removeable);
-		$('#map').slideDown('fast', function(){
-			init(searchQuery);
-		});
+		if(searchQuery !== ''){
+			$('#content-grid').isotope('remove', $removeable);
+			$('#map').slideDown('fast', function(){
+				init(searchQuery);
+			});
+		} else {
+			$('#welcome').find('p').fadeOut('fast', function(){
+				$('p').text('(Whoops, you forgot to type something!)').fadeIn('fast');
+			});
+		}
 		return false;
 	});
 
@@ -151,13 +157,17 @@
 	});
 
 	$('#info, #logo').on('click', function(){
-		var header = $('header');
+		var header = $('header'),
+			map = $('#map'),
+			about = $('#about');
 		if(header.hasClass('no-stick')){
 			header.removeClass('no-stick');
-			$('#about').slideUp('fast');
+			map.removeClass('expanded');
+			about.slideUp('fast');
 		} else {
 			header.addClass('no-stick');
-			$('#about').slideDown('fast');
+			map.addClass('expanded');
+			about.slideDown('fast');
 		}
 
 	});
