@@ -17,6 +17,17 @@
 		});
 	});
 
+	//prevent form from submitting in IE
+	$('#search').submit(function(){
+		var searchQuery = $('#autocomplete').val(),
+			$removeable = $('#content-grid').find('.instagram');
+		$('#content-grid').isotope('remove', $removeable);
+		$('#map').slideDown('fast', function(){
+			init(searchQuery);
+		});
+		return false;
+	});
+
 	var init = function(searchQuery) {
 		$('#welcome').fadeOut('fast');
 		var initCenter = new google.maps.LatLng(40,-74);
