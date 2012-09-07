@@ -151,7 +151,7 @@ header{
 	height: 250px;
 	width: 100%;
 	background: #DDD;
-	//display: none;
+	display: none;
 	@include box-shadow(0px 1px 2px #3d3c3c);
 
 }
@@ -286,5 +286,26 @@ header{
 		width: 300px;
 		min-width: 300px;
 		max-width: 300px;
+	}
+}
+
+.lt-ie9{
+	#map{
+		display: block;
+	}
+	#welcome{
+		margin-top: 0px;
+	}
+	#about{
+		background: #dedede;
+		#about-container{
+			h3{
+				color: #333;
+			}
+			p{
+				color: #666;
+				font-size: 14px;
+			}
+		}
 	}
 }
