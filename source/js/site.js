@@ -1,4 +1,4 @@
-(function(){
+$(function(){
 	//autocomplete init
 	new google.maps.places.Autocomplete(document.getElementById('autocomplete'));
 
@@ -63,8 +63,8 @@
 	var callback = function(results, status) {
 
 		if (status == google.maps.places.PlacesServiceStatus.OK) {
-			var lat = results[0].geometry.location.Xa;
-			var lng = results[0].geometry.location.Ya;
+			var lng = results[0].geometry.location.Za;
+			var lat = results[0].geometry.location.Ya;
 			var center = new google.maps.LatLng(lat, lng);
 			map.panTo(center);
 			createMarker(lat, lng);
@@ -207,7 +207,7 @@
 		// });
 	};
 	initGrid();
-})();
+});
 
 
 

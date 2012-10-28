@@ -1,5 +1,5 @@
 #Livereload
-activate :livereload
+#activate :livereload
 
 ###
 # Compass
