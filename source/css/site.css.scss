@@ -114,6 +114,7 @@ header{
 	background-color: #888;
 	#about-container{
 		width: $site-width;
+		min-width: $site-width;
 		margin: 0 auto;
 		padding: 0 10px;
 		h3{
