@@ -12,10 +12,19 @@ $(function(){
 		e.stopPropagation();
 		var searchQuery = $('#autocomplete').val(),
 			$removeable = $('#content-grid').find('.instagram');
-		if(searchQuery !== ''){
+		if(searchQuery !== '' && searchQuery.slice(0,1) !== "#" && searchQuery.slice(0,1) !== "@"){
 			$('#content-grid').isotope('remove', $removeable);
 			$('#map').slideDown('fast', function(){
 				init(searchQuery);
+			});
+		} else if(searchQuery.slice(0,1) === "#"){
+			$('#map').slideUp('fast', function(){
+				getHashtags('https://api.instagram.com/v1/tags/'+ searchQuery.slice(1) +'/media/recent?callback=?&amp;client_id=b93756e565794360942f1eba0831c90c');
+				moreUrl = 'https://api.instagram.com/v1/tags/'+ searchQuery.slice(1) +'/media/recent?callback=?&amp;client_id=b93756e565794360942f1eba0831c90c';
+			});
+		} else if(searchQuery.slice(0,1) === "@"){
+			$('#map').slideUp('fast', function(){
+
 			});
 		} else {
 			$('#welcome').find('p').fadeOut('fast', function(){
@@ -108,6 +117,14 @@ $(function(){
 			success : processPhotos
 		});
 	};
+
+	var getHashtags = function(url){
+		$.ajax({
+			url : url,
+			dataType : 'jsonp',
+			success : processPhotos
+		});
+	}
 
 	var processPhotos = function(data){
 		var i;
