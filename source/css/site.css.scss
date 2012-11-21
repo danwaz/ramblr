@@ -217,6 +217,24 @@ header{
 	font-weight: bold;
 }
 
+#hash-container{
+	position: absolute;
+	z-index: 1000;
+	width: 312px;
+	left: 15px;
+	top: 39px;
+	visibility: visible;
+	display: none;
+	background-color: white;
+	border: 1px solid #CCC;
+	overflow: hidden;
+	p{
+		color: #999;
+		padding-left: 7px;
+		margin: 10px 0;
+	}
+}
+
 @media (max-device-width: 480px) {
 	#welcome{
 		width: 300px;
