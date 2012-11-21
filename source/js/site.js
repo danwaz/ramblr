@@ -31,6 +31,10 @@ $(function(){
 					animateEl.find('p').text("(Here are some photos based on your #hashtag)");
 					animateEl.fadeIn('slow');
 
+				window.setTimeout(function(){
+					$('#hash-container').css({display: "none"});
+				}, 200);
+
 				getHashtags('https://api.instagram.com/v1/tags/'+ searchQuery.slice(1) +'/media/recent?callback=?&amp;client_id=' + clientId);
 				moreUrl = 'https://api.instagram.com/v1/tags/'+ searchQuery.slice(1) +'/media/recent?callback=?&amp;client_id=' + clientId;
 			});
@@ -195,7 +199,7 @@ $(function(){
 	};
 
 	$(window).scroll(function() {
-		if($(window).scrollTop() + $(window).height() === $(document).height()) {
+		if($(window).scrollTop() + $(window).height() >= ($(document).height() -620 )) {
 			if(moreUrl !== "" && canLoad === true){
 				loadMore(moreUrl + "&max_id=" +  nextPage);
 				canLoad = false;
@@ -215,7 +219,8 @@ $(function(){
 	});
 
 	$('#top').click(function(){
-		window.scrollTo(0);
+		$("html, body").animate({ scrollTop: 0 }, 600);
+			return false;
 	});
 
 	$('#welcome').find('p').on({
@@ -239,20 +244,13 @@ $(function(){
 		}
 	});
 
-	$(window).resize(function(){
-		$('#hash-container').css({left: $('#autocomplete').offset().left});
-	});
-
-
-
 	$('#autocomplete').on({
-		keyup: function(){
+		keyup: function(e){
 			if($(this).val().slice(0,1) === '#'){
 				$('#hash-container').css({display: "block"});
 				$('.pac-container').css({visibility: "hidden"});
 				$('#hash-container').css({left: $('#autocomplete').offset().left});
 				$('#hash-container').find('p').text('Search hashtag: ' + $(this).val());
-
 			} else {
 				$('#hash-container').css({display: "none"});
 				$('.pac-container').css({visibility: "visible"});

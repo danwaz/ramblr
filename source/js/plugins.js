@@ -268,6 +268,7 @@ while ( --i ) {
 var containerWidth = (this.masonry.cols - unusedCols) * this.masonry.columnWidth;
 $('#header-container').css('width', containerWidth);
 $('#about-container').css('width', containerWidth);
+$('#hash-container').css({left: $('#autocomplete').offset().left});
 return {
 	height : Math.max.apply( Math, this.masonry.colYs ),
 	// fit container to columns that have been used;
