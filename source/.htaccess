@@ -24,3 +24,20 @@ BrowserMatch bMSIE !no-gzip !gzip-only-text/html
 Header append Vary User-Agent
 </IfModule>
 # END DEFLATE
+
+# 1 YEAR
+<filesMatch ".(ico|pdf|flv)$">
+Header set Cache-Control "max-age=29030400, public"
+</filesMatch>
+# 1 WEEK
+<filesMatch ".(jpg|jpeg|png|gif|swf)$">
+Header set Cache-Control "max-age=604800, public"
+</filesMatch>
+# 1 WEEK
+<filesMatch ".(xml|txt|css|js)$">
+Header set Cache-Control "max-age=604800, proxy-revalidate"
+</filesMatch>
+# 1 MIN
+<filesMatch ".(html|htm|php)$">
+Header set Cache-Control "max-age=60, private, proxy-revalidate"
+</filesMatch>

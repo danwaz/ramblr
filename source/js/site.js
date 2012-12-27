@@ -13,7 +13,7 @@ $(function(){
 		e.stopPropagation();
 		var searchQuery = $('#autocomplete').val(),
 			$removeable = $('#content-grid').find('.instagram');
-		if(searchQuery !== '' && searchQuery.slice(0,1) !== "#" && searchQuery.slice(0,1) !== "@"){
+		if(searchQuery !== '' && searchQuery.slice(0,1) !== "#"){
 			$('#content-grid').isotope('remove', $removeable);
 			$('#map').slideDown('fast', function(){
 				init(searchQuery);
@@ -37,11 +37,6 @@ $(function(){
 
 				getHashtags('https://api.instagram.com/v1/tags/'+ searchQuery.slice(1) +'/media/recent?callback=?&amp;client_id=' + clientId);
 				moreUrl = 'https://api.instagram.com/v1/tags/'+ searchQuery.slice(1) +'/media/recent?callback=?&amp;client_id=' + clientId;
-			});
-		} else if(searchQuery.slice(0,1) === "@"){
-			$('#content-grid').isotope('remove', $removeable);
-			$('#map').slideUp('fast', function(){
-				getUser('https://api.instagram.com/v1/users/search?q='+ searchQuery.slice(1) +'&callback=?&amp;client_id=' + clientId);
 			});
 		} else {
 			$('#content-grid').isotope('remove', $removeable);
