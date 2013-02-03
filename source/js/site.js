@@ -8,6 +8,26 @@ $(function(){
 		clientId = 'b93756e565794360942f1eba0831c90c',
 		queryString = window.location.search;
 
+	//load spinner
+	var opts = {
+		lines: 11, // The number of lines to draw
+		length: 5, // The length of each line
+		width: 5, // The line thickness
+		radius: 10, // The radius of the inner circle
+		corners: 1, // Corner roundness (0..1)
+		rotate: 43, // The rotation offset
+		color: '#000', // #rgb or #rrggbb
+		speed: 1.9, // Rounds per second
+		trail: 79, // Afterglow percentage
+		shadow: true, // Whether to render a shadow
+		hwaccel: false, // Whether to use hardware acceleration
+		className: 'spinner', // The CSS class to assign to the spinner
+		zIndex: 2e9, // The z-index (defaults to 2000000000)
+		top: '130', // Top position relative to parent in px
+		left: '480' // Left position relative to parent in px
+	};
+	var spinner;
+
 	//Handles Location and Tag Searches
 	var searchHandler = function(searchQuery){
 		if(searchQuery !== '' && searchQuery.slice(0,1) !== "#"){
@@ -100,6 +120,8 @@ $(function(){
 			var lng = results[0].geometry.location.lng();
 			var lat = results[0].geometry.location.lat();
 			var center = new google.maps.LatLng(lat, lng);
+			var target = document.getElementById('welcome');
+			spinner = new Spinner(opts).spin(target);
 			map.panTo(center);
 			createMarker(lat, lng);
 			getLocation(lat, lng);
@@ -179,6 +201,7 @@ $(function(){
 
 	var processPhotos = function(data){
 		var i;
+		spinner.stop();
 		for (i = 0; i < data.data.length; i++){
 			var photoItem = $('<div class="item instagram"><a href="'+ data.data[i].link +'" target="_blank"><img src="' + data.data[i].images.low_resolution.url + '" width="310" height="310"/><div class="overlay"><h2>'+ data.data[i].likes.count +' &hearts;</h2></div></a></div>');
 			$('#content-grid').isotope('insert', photoItem);
@@ -274,7 +297,6 @@ $(function(){
 	};
 
 	var initGrid = function(){
-		//$('#loader').remove();
 		$('#content-grid').isotope({
 			// options
 			itemSelector : '.item',
