@@ -13,6 +13,11 @@ $(function(){
 		e.stopPropagation();
 		var searchQuery = $('#autocomplete').val(),
 			$removeable = $('#content-grid').find('.instagram');
+
+
+
+		console.log(encodeURIComponent(searchQuery));
+
 		if(searchQuery !== '' && searchQuery.slice(0,1) !== "#"){
 			$('#content-grid').isotope('remove', $removeable);
 			$('#map').slideDown('fast', function(){
