@@ -123,6 +123,13 @@ $(function(){
 
 	//Instagram Functions
 	var getIgLocation = function(data){
+		if(data.response.venues.length < 1){
+			errorText = "(Sorry, we couldn't find any photos there)";
+			textAnimate('No Results Found :(');
+			showErrors();
+			return false;
+		}
+
 		var foursquareId = data.response.venues[0].id;
 		textAnimate(data.response.venues[0].name);
 		$.ajax({
