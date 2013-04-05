@@ -6,7 +6,8 @@ $(function(){
 	var moreUrl = "",
 		canLoad = false,
 		clientId = 'b93756e565794360942f1eba0831c90c',
-		queryString = window.location.search;
+		queryString = window.location.search,
+		errorText = '';
 
 	//Handles Location and Tag Searches
 	var searchHandler = function(searchQuery){
@@ -71,6 +72,7 @@ $(function(){
 		}
 	})();
 
+	//Init Google Maps
 	var init = function(searchQuery) {
 		$('#welcome').fadeOut('fast');
 		var initCenter = new google.maps.LatLng(40,-74);
@@ -107,27 +109,21 @@ $(function(){
 		}
 	};
 
+	//Foursquare functions
 	var getLocation = function(lat, lng){
+		var venueName = $('#autocomplete').val(),
+			trimmedName = (venueName.indexOf(',') > -1) ? venueName.substring(0, venueName.indexOf(',')) : venueName;
+
 		$.ajax({
-			url : "https://api.foursquare.com/v2/venues/search?ll="+ lat + "," + lng +"&oauth_token=0GMVSGB5PKWRAIRHXUFBC5MSNCIV2W0ICC0QMKZFRJGNSYBH&v=20120801",
+			url : "https://api.foursquare.com/v2/venues/search?ll="+ lat + "," + lng +"&query="+ trimmedName +"&intent=checkin&oauth_token=0GMVSGB5PKWRAIRHXUFBC5MSNCIV2W0ICC0QMKZFRJGNSYBH&v=20120801",
 			dataType : 'jsonp',
 			success : getIgLocation
 		});
 	};
 
+	//Instagram Functions
 	var getIgLocation = function(data){
-		var foursquareId = data.response.venues[0].id,
-			venueName = $('#autocomplete').val();
-
-		console.log(venueName);
-		console.log(data);
-
-
-
-		for(var i = 0; i < data.length; i++){
-
-		}
-
+		var foursquareId = data.response.venues[0].id;
 		textAnimate(data.response.venues[0].name);
 		$.ajax({
 			url : "https://api.instagram.com/v1/locations/search?foursquare_v2_id="+ foursquareId +"&callback=?&amp;client_id=" + clientId,
@@ -142,7 +138,6 @@ $(function(){
 		moreUrl = "https://api.instagram.com/v1/locations/"+ locationId +"/media/recent?callback=?&amp;client_id=" + clientId;
 	};
 
-	//instagram
 	var index = 0,
 		nextPage = "",
 		photoArr = [];
@@ -163,50 +158,32 @@ $(function(){
 		});
 	};
 
-	var getUser = function(url){
-		$.ajax({
-			url : url,
-			dataType : 'jsonp',
-			success : processUser
-		});
-	};
-
-	var processUser = function(data){
-		var user = {
-			bio: data.data[0].bio,
-			fullName: data.data[0].full_name,
-			id: data.data[0].id,
-			profilePic: data.data[0].profile_picture,
-			username: data.data[0].username,
-			website: data.data[0].website
-		},
-		url = 'https://api.instagram.com/v1/users/' + user.id + '/media/recent?callback=?&amp;client_id=' + clientId;
-
-		$.ajax({
-			url : url,
-			dataType : 'jsonp',
-			success : processPhotos
-		});
-	};
-
 	var processPhotos = function(data){
 		var i;
+
+		if(data.data.length < 1){
+			errorText = "(Sorry, we couldn't find any photos there)";
+		} else {
+			errorText = "(We found this near that location)";
+		}
+
 		for (i = 0; i < data.data.length; i++){
 			var photoItem = $('<div class="item instagram"><a href="'+ data.data[i].link +'" target="_blank"><img src="' + data.data[i].images.low_resolution.url + '" width="310" height="310"/><div class="overlay"><h2>'+ data.data[i].likes.count +' &hearts;</h2></div></a></div>');
 			$('#content-grid').isotope('insert', photoItem);
 		}
 
-		$('.instagram').on({
+		$('#content-grid').on({
 			mouseenter : function(){
 				$(this).find('.overlay').fadeIn('fast');
 			},
 			mouseleave : function(){
 				$(this).find('.overlay').fadeOut('fast');
 			}
-		});
+		}, '.instagram');
 
 		nextPage =  data.pagination.next_max_id;
 		canLoad = true;
+		showErrors();
 	};
 
 	var loadMore = function(url){
@@ -217,9 +194,10 @@ $(function(){
 		});
 	};
 
+	//Infinite scroll + toggle 'back to top' button
 	$(window).scroll(function() {
 		if($(window).scrollTop() + $(window).height() >= ($(document).height() -620 )) {
-			if(moreUrl !== "" && canLoad === true){
+			if(nextPage !== "" && canLoad === true){
 				loadMore(moreUrl + "&max_id=" +  nextPage);
 				canLoad = false;
 			}
@@ -237,17 +215,22 @@ $(function(){
 		}
 	});
 
-	$('#top').click(function(){
-		$("html, body").animate({ scrollTop: 0 }, 600);
-			return false;
+	//Scroll To top
+	$('#top').on({
+		click:function(){
+			$("html, body").animate({ scrollTop: 0 }, 600);
+				return false;
+			}
 	});
 
+	//Search Hint
 	$('#welcome').find('p').on({
 		mouseenter : function(){
 			$('#autocomplete').focus();
 		}
 	});
 
+	//show the about section
 	$('#info, #logo').on('click', function(){
 		var header = $('header'),
 			map = $('#map'),
@@ -263,6 +246,7 @@ $(function(){
 		}
 	});
 
+	//Auto Complete text hinting
 	$('#autocomplete').on({
 		keyup: function(e){
 			if($(this).val().slice(0,1) === '#'){
@@ -277,13 +261,18 @@ $(function(){
 		}
 	});
 
+	//Show search text
 	var textAnimate = function(name){
 		var animateEl = $('#welcome');
 		animateEl.css('margin-top', '30px');
 		animateEl.find('h2').text(name);
-		animateEl.find('p').text("(We found this near that location)");
 		animateEl.fadeIn('slow');
 	};
+
+	var showErrors = function(){
+		var animateEl = $('#welcome');
+		animateEl.find('p').text(errorText);
+	}
 
 	var initGrid = function(){
 		$('#content-grid').isotope({
