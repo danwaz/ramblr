@@ -133,6 +133,12 @@ $(function(){
 	};
 
 	var processLocation = function(data){
+		if(data.data.length < 1){
+			errorText = "(Sorry, we couldn't find any photos there)";
+			showErrors();
+			return false;
+		}
+
 		var locationId = data.data[0].id;
 		getPhotos("https://api.instagram.com/v1/locations/"+ locationId +"/media/recent?callback=?&amp;client_id=" + clientId);
 		moreUrl = "https://api.instagram.com/v1/locations/"+ locationId +"/media/recent?callback=?&amp;client_id=" + clientId;
@@ -163,6 +169,8 @@ $(function(){
 
 		if(data.data.length < 1){
 			errorText = "(Sorry, we couldn't find any photos there)";
+			showErrors();
+			return false;
 		} else {
 			errorText = "(We found this near that location)";
 		}
