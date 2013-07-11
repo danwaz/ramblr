@@ -35,7 +35,7 @@ $(function(){
 				$(this).text('(Whoops, you forgot to type something!)').fadeIn('fast');
 			});
 		}
-	}
+	};
 
 	//input handler
 	$('input[type="submit"], .icons-search-icon').click(function(e){
@@ -287,7 +287,7 @@ $(function(){
 	var showErrors = function(){
 		var animateEl = $('#welcome');
 		animateEl.find('p').text(errorText);
-	}
+	};
 
 	var initGrid = function(){
 		$('#content-grid').isotope({
